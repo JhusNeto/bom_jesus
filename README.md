@@ -176,6 +176,10 @@ A aplicação estará disponível em: `http://localhost:8000`
 - **ReDoc**: `http://localhost:8000/redoc`
 - **OpenAPI JSON**: `http://localhost:8000/openapi.json`
 
+## 📐 Estrutura do Projeto
+
+Consulte **[ESTRUTURA_PROJETO.md](./ESTRUTURA_PROJETO.md)** para documentação completa da estrutura, arquitetura e organização do projeto.
+
 ## 🗄️ Banco de Dados
 
 ### PostgreSQL 14+
