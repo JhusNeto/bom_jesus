@@ -16,7 +16,13 @@ from app.core.config import settings
 from app.db.base import Base
 
 # Import all models here so Alembic can detect them
-from app.models import User, AuthToken  # noqa
+from app.models import (  # noqa
+    User, AuthToken, LogOperacional,
+    Carga, Camara, MovimentacaoCamara, Pesagem, Perda,
+    Cliente, Pedido, ItemPedido, Devolucao,
+    GastoInterno,
+    OCRInput, Rota, EntregaCliente,
+)
 
 # this is the Alembic Config object
 config = context.config
