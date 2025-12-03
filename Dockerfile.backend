@@ -1,0 +1,68 @@
+# Dockerfile Backend - Sistema Operacional Bom Jesus
+# Multi-stage build para otimização
+
+# ============================================
+# Stage 1: Builder
+# ============================================
+FROM python:3.11-slim as builder
+
+WORKDIR /build
+
+# Instalar dependências de build
+RUN apt-get update && apt-get install -y \
+    gcc \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copiar e instalar dependências Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+# ============================================
+# Stage 2: Runtime
+# ============================================
+FROM python:3.11-slim
+
+# Metadados
+LABEL maintainer="Sistema Operacional Bom Jesus"
+LABEL description="Backend FastAPI - Sistema Operacional Bom Jesus"
+LABEL version="1.0.0"
+
+# Variáveis de ambiente
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH="/home/appuser/.local/bin:${PATH}" \
+    PYTHONPATH="/app"
+
+# Criar usuário não-root
+RUN useradd -m -u 1000 appuser && \
+    mkdir -p /app /app/logs && \
+    chown -R appuser:appuser /app
+
+# Copiar dependências instaladas do builder
+COPY --from=builder /root/.local /home/appuser/.local
+
+# Instalar dependências do sistema para runtime
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Definir diretório de trabalho
+WORKDIR /app
+
+# Copiar código da aplicação
+COPY --chown=appuser:appuser . .
+
+# Mudar para usuário não-root
+USER appuser
+
+# Expor porta
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')" || exit 1
+
+# Comando padrão (produção com workers)
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--no-access-log"]
+

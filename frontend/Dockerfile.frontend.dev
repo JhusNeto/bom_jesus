@@ -1,0 +1,17 @@
+# Dockerfile Frontend - Desenvolvimento
+# Versão simplificada para hot reload
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instalar dependências
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# O código será montado como volume no docker-compose
+# Por isso não copiamos aqui
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

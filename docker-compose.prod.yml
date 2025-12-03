@@ -1,0 +1,140 @@
+# Docker Compose - Produção
+# Sistema Operacional Bom Jesus
+
+services:
+  # Backend FastAPI (Produção)
+  api-service:
+    image: ${DOCKER_REGISTRY:-bomjesus}/backend:${IMAGE_TAG:-latest}
+    container_name: bom_jesus_backend_prod
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db-service:5432/${POSTGRES_DB}
+      - REDIS_URL=redis://redis-service:6379/0
+      - DEBUG=False
+      - ENVIRONMENT=production
+      - SECRET_KEY=${SECRET_KEY}
+    env_file:
+      - .env.prod
+    volumes:
+      - ./logs:/app/logs
+      - ./app/static:/app/app/static:ro
+    depends_on:
+      db-service:
+        condition: service_healthy
+      redis-service:
+        condition: service_healthy
+    networks:
+      - bomjesus-net
+    restart: always
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Frontend Next.js (Produção)
+  frontend-service:
+    image: ${DOCKER_REGISTRY:-bomjesus}/frontend:${IMAGE_TAG:-latest}
+    container_name: bom_jesus_frontend_prod
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://api-service:8000}
+    depends_on:
+      api-service:
+        condition: service_healthy
+    networks:
+      - bomjesus-net
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # PostgreSQL Database (Produção)
+  db-service:
+    image: postgres:14-alpine
+    container_name: bom_jesus_db_prod
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+      - ./backups:/backups:ro
+    networks:
+      - bomjesus-net
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Não expor portas em produção (acesso apenas interno)
+    # ports:
+    #   - "5432:5432"
+
+  # Redis (Produção)
+  redis-service:
+    image: redis:7-alpine
+    container_name: bom_jesus_redis_prod
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data_prod:/data
+    networks:
+      - bomjesus-net
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Workers futuros (placeholders)
+  # ocr-worker:
+  #   image: ${DOCKER_REGISTRY}/ocr-worker:${IMAGE_TAG}
+  #   networks:
+  #     - bomjesus-net
+  #   restart: always
+  #
+  # ia-worker:
+  #   image: ${DOCKER_REGISTRY}/ia-worker:${IMAGE_TAG}
+  #   networks:
+  #     - bomjesus-net
+  #   restart: always
+
+networks:
+  bomjesus-net:
+    driver: bridge
+    name: bomjesus-net
+    internal: false  # Permitir acesso externo para nginx
+
+volumes:
+  postgres_data_prod:
+    name: bomjesus_postgres_data_prod
+  redis_data_prod:
+    name: bomjesus_redis_data_prod
+

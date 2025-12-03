@@ -1,0 +1,9 @@
+# Features directory
+# Each feature module will have its own folder structure:
+# /features/[feature-name]/
+#   - components/
+#   - hooks/
+#   - services/
+#   - types/
+#   - index.ts
+

@@ -1,0 +1,131 @@
+# Docker Compose - Desenvolvimento
+# Sistema Operacional Bom Jesus
+
+services:
+  # Backend FastAPI
+  api-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: bom_jesus_backend_dev
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db-service:5432/${POSTGRES_DB:-bom_jesus_db}
+      - REDIS_URL=redis://redis-service:6379/0
+      - DEBUG=${DEBUG:-True}
+      - ENVIRONMENT=development
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app:ro
+      - ./logs:/app/logs
+    depends_on:
+      db-service:
+        condition: service_healthy
+      redis-service:
+        condition: service_healthy
+    networks:
+      - bomjesus-net
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend Next.js (Desenvolvimento)
+  frontend-service:
+    image: node:20-alpine
+    container_name: bom_jesus_frontend_dev
+    working_dir: /app
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      api-service:
+        condition: service_healthy
+    networks:
+      - bomjesus-net
+    restart: unless-stopped
+    command: sh -c "npm install && npm run dev"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # PostgreSQL Database
+  db-service:
+    image: postgres:14-alpine
+    container_name: bom_jesus_db_dev
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-bom_jesus_db}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --locale=pt_BR.UTF-8
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - bomjesus-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Redis
+  redis-service:
+    image: redis:7-alpine
+    container_name: bom_jesus_redis_dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - bomjesus-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PGAdmin (Opcional - Desenvolvimento)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: bom_jesus_pgadmin_dev
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@bomjesus.local}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - bomjesus-net
+    restart: unless-stopped
+    profiles:
+      - tools  # Só inicia com --profile tools
+
+networks:
+  bomjesus-net:
+    driver: bridge
+    name: bomjesus-net
+
+volumes:
+  postgres_data:
+    name: bomjesus_postgres_data
+  redis_data:
+    name: bomjesus_redis_data
+  pgadmin_data:
+    name: bomjesus_pgadmin_data
