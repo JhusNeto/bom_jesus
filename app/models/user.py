@@ -13,10 +13,10 @@ from app.db.base import Base
 
 class UserRole(str, enum.Enum):
     """Roles de usuário no sistema"""
-    ADMIN = "admin"
-    MANAGER = "manager"
-    OPERATOR = "operator"
-    VIEWER = "viewer"
+    ADMIN = "ADMIN"
+    MANAGER = "MANAGER"
+    OPERATOR = "OPERATOR"
+    VIEWER = "VIEWER"
 
 
 class User(Base):
@@ -33,7 +33,7 @@ class User(Base):
     email = Column(String(255), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
     role = Column(
-        Enum(UserRole),
+        Enum(UserRole, values_callable=lambda x: [e.value for e in x], native_enum=False),
         default=UserRole.VIEWER,
         nullable=False,
         index=True,

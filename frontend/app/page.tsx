@@ -10,7 +10,12 @@ export default function HomePage() {
 
   useEffect(() => {
     checkAuth()
-    // Aguarda um pouco para verificar autenticação
+  }, [checkAuth])
+
+  useEffect(() => {
+    // Aguarda verificar autenticação antes de redirecionar
+    if (isAuthenticated === undefined) return // Ainda não verificou
+    
     const timer = setTimeout(() => {
       if (isAuthenticated) {
         router.push("/dashboard")
@@ -20,7 +25,7 @@ export default function HomePage() {
     }, 100)
 
     return () => clearTimeout(timer)
-  }, [isAuthenticated, router, checkAuth])
+  }, [isAuthenticated, router])
 
   return (
     <div className="flex items-center justify-center min-h-screen">

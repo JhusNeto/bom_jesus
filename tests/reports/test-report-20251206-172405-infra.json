@@ -1,0 +1,13 @@
+[,
+{"name": "Docker está rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:05Z"}
+,
+{"name": "Container backend rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:05Z"}
+,
+{"name": "Container database rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:05Z"}
+,
+{"name": "Container redis rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:05Z"}
+,
+{"name": "Backend está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:05Z"}
+,
+{"name": "Database está healthy", "status": "FAILED", "category": "infrastructure", "error": "Error: No such object: bom_jesus_db_devError: No such object: bom_jesus_db_dev", "timestamp": "2025-12-06T20:24:05Z"}
+]

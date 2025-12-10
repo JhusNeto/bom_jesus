@@ -1,0 +1,490 @@
+[
+{"name": "Docker está rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Container backend rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Container database rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Container redis rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Backend está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Database está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Redis está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Porta 8000 está aberta", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Porta 5433 está aberta", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+{"name": "Porta 6379 está aberta", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:35:39Z"}
+,
+  {
+    "name": "GET / (Endpoint raiz)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.817444Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/health",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.820409Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/health/ready",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.823305Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/db/health",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.852557Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /docs (Swagger UI)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.855343Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /redoc (ReDoc)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.857211Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /openapi.json",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.865381Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/login (credenciais v\u00e1lidas)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.101249Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/login (credenciais inv\u00e1lidas)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.105006Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "GET /auth/me (com token v\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.109353Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /auth/me (sem token)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.111065Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "GET /auth/me (token inv\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.112760Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "POST /auth/refresh (token v\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.116053Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/refresh (token inv\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.117758Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "POST /auth/logout",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.120008Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/refresh (ap\u00f3s logout - deve falhar)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.122248Z",
+    "details": {
+      "status_code": 401
+    }
+  }
+,
+  {
+    "name": "Conex\u00e3o com PostgreSQL",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.214516Z"
+  },
+  {
+    "name": "Vers\u00e3o do PostgreSQL",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.219326Z",
+    "details": {
+      "version": "PostgreSQL 15.15 on aarch64-unknown-linux-musl"
+    }
+  },
+  {
+    "name": "Tabela 'users' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227274Z"
+  },
+  {
+    "name": "Tabela 'auth_tokens' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227284Z"
+  },
+  {
+    "name": "Tabela 'alembic_version' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227285Z"
+  },
+  {
+    "name": "Total de tabelas",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227287Z",
+    "details": {
+      "count": 17,
+      "tables": [
+        "alembic_version",
+        "devolucoes",
+        "entregas_cliente",
+        "rotas",
+        "itens_pedido",
+        "users",
+        "auth_tokens",
+        "gastos_internos",
+        "logs_operacionais",
+        "camaras",
+        "movimentacoes_camara",
+        "cargas",
+        "clientes",
+        "ocr_inputs",
+        "pedidos",
+        "perdas",
+        "pesagens"
+      ]
+    }
+  },
+  {
+    "name": "Coluna 'users.id' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238686Z",
+    "details": {
+      "type": "uuid"
+    }
+  },
+  {
+    "name": "Coluna 'users.name' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238698Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.email' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238700Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.hashed_password' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238702Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.role' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238704Z",
+    "details": {
+      "type": "USER-DEFINED"
+    }
+  },
+  {
+    "name": "Coluna 'users.is_active' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238705Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.created_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238706Z",
+    "details": {
+      "type": "timestamp without time zone"
+    }
+  },
+  {
+    "name": "Coluna 'users.updated_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238707Z",
+    "details": {
+      "type": "timestamp without time zone"
+    }
+  },
+  {
+    "name": "Constraints da tabela users",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.240338Z",
+    "details": {
+      "constraints": [
+        "users_pkey",
+        "users_email_key",
+        "2200_16394_1_not_null",
+        "2200_16394_2_not_null",
+        "2200_16394_3_not_null",
+        "2200_16394_4_not_null",
+        "2200_16394_5_not_null",
+        "2200_16394_6_not_null",
+        "2200_16394_7_not_null",
+        "2200_16394_8_not_null"
+      ]
+    }
+  },
+  {
+    "name": "Coluna 'auth_tokens.id' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250249Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.user_id' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250259Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.token' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250261Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.token_type' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250262Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.is_active' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250264Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.expires_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250265Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.created_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250266Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.last_used_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250267Z"
+  },
+  {
+    "name": "Migrations aplicadas",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.255006Z",
+    "details": {
+      "version": "432576a07748"
+    }
+  },
+  {
+    "name": "Usu\u00e1rio de teste existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.260958Z",
+    "details": {
+      "email": "admin@bomjesus.com"
+    }
+  },
+  {
+    "name": "Consulta SELECT COUNT(*) FROM users",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.266138Z",
+    "details": {
+      "count": 1
+    }
+  },
+  {
+    "name": "Consulta SELECT com WHERE",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.266357Z"
+  },
+  {
+    "name": "\u00cdndices do banco",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.273120Z",
+    "details": {
+      "count": 78,
+      "indexes": [
+        "alembic_version_pkc",
+        "auth_tokens_pkey",
+        "auth_tokens_token_key",
+        "ix_auth_tokens_expires_at",
+        "ix_auth_tokens_id",
+        "ix_auth_tokens_is_active",
+        "ix_auth_tokens_token",
+        "ix_auth_tokens_user_id",
+        "camaras_pkey",
+        "ix_camaras_id"
+      ]
+    }
+  }
+,
+  {
+    "name": "Conex\u00e3o com Redis",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.374733Z"
+  },
+  {
+    "name": "Redis PING",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.375758Z"
+  },
+  {
+    "name": "Salvar refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.376772Z",
+    "details": {
+      "key": "refresh_token:test-user-123:test-refresh-token-12345",
+      "ttl": 3600
+    }
+  },
+  {
+    "name": "Verificar refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.377587Z"
+  },
+  {
+    "name": "TTL de refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.378573Z",
+    "details": {
+      "ttl_seconds": 3600
+    }
+  },
+  {
+    "name": "Revogar refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.379374Z"
+  },
+  {
+    "name": "Revogar todos os tokens",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.380644Z",
+    "details": {
+      "deleted_count": 3
+    }
+  },
+  {
+    "name": "Redis INFO",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:35:40.381697Z",
+    "details": {
+      "redis_version": "7.4.7"
+    }
+  }
+,
+{"name": "Frontend está acessível", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:35:40Z"},
+{"name": "Redirecionamento para login", "status": "FAILED", "category": "frontend", "timestamp": "2025-12-06T20:35:40Z", "error": "Página não contém elementos de login\n"},
+{"name": "Página /login acessível", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:35:40Z"},
+{"name": "Dashboard requer autenticação", "status": "FAILED", "category": "frontend", "timestamp": "2025-12-06T20:35:41Z", "error": "Não redirecionou para login\n"},
+{"name": "Headers de segurança presentes", "status": "SKIPPED", "category": "frontend", "timestamp": "2025-12-06T20:35:41Z", "error": "Headers opcionais não verificados\n"}
+]

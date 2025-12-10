@@ -8,7 +8,7 @@ from .auth_token import AuthToken
 from .log_operacional import LogOperacional, TipoLog
 
 # Núcleo Operacional
-from .carga import Carga, TipoBanana, StatusCarga
+from .carga import Carga, TipoBanana, StatusCarga, EstadoMaturacao
 from .camara import Camara, StatusCamara
 from .movimentacao_camara import MovimentacaoCamara, TipoMovimento
 from .pesagem import Pesagem, StatusPesagem
@@ -26,7 +26,7 @@ from .gasto_interno import GastoInterno, TipoGasto
 # Núcleo IA/Futuro
 from .ocr_input import OCRInput
 from .rota import Rota, StatusRota
-from .entrega_cliente import EntregaCliente
+from .entrega_cliente import EntregaCliente, StatusEntrega
 
 __all__ = [
     # Núcleo Técnico
@@ -39,6 +39,7 @@ __all__ = [
     "Carga",
     "TipoBanana",
     "StatusCarga",
+    "EstadoMaturacao",
     "Camara",
     "StatusCamara",
     "MovimentacaoCamara",
@@ -62,4 +63,5 @@ __all__ = [
     "Rota",
     "StatusRota",
     "EntregaCliente",
+    "StatusEntrega",
 ]

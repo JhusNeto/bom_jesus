@@ -1,0 +1,7 @@
+[
+{"name": "Frontend está acessível", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:38:22Z"},
+{"name": "Redirecionamento para login", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:38:22Z"},
+{"name": "Página /login acessível", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:38:22Z"},
+{"name": "Dashboard requer autenticação", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:38:22Z"},
+{"name": "Headers de segurança presentes", "status": "PASSED", "category": "frontend", "timestamp": "2025-12-06T20:38:22Z"}
+]

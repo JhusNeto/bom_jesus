@@ -1,0 +1,257 @@
+[
+  {
+    "name": "Conex\u00e3o com PostgreSQL",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.214516Z"
+  },
+  {
+    "name": "Vers\u00e3o do PostgreSQL",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.219326Z",
+    "details": {
+      "version": "PostgreSQL 15.15 on aarch64-unknown-linux-musl"
+    }
+  },
+  {
+    "name": "Tabela 'users' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227274Z"
+  },
+  {
+    "name": "Tabela 'auth_tokens' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227284Z"
+  },
+  {
+    "name": "Tabela 'alembic_version' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227285Z"
+  },
+  {
+    "name": "Total de tabelas",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.227287Z",
+    "details": {
+      "count": 17,
+      "tables": [
+        "alembic_version",
+        "devolucoes",
+        "entregas_cliente",
+        "rotas",
+        "itens_pedido",
+        "users",
+        "auth_tokens",
+        "gastos_internos",
+        "logs_operacionais",
+        "camaras",
+        "movimentacoes_camara",
+        "cargas",
+        "clientes",
+        "ocr_inputs",
+        "pedidos",
+        "perdas",
+        "pesagens"
+      ]
+    }
+  },
+  {
+    "name": "Coluna 'users.id' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238686Z",
+    "details": {
+      "type": "uuid"
+    }
+  },
+  {
+    "name": "Coluna 'users.name' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238698Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.email' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238700Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.hashed_password' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238702Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.role' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238704Z",
+    "details": {
+      "type": "USER-DEFINED"
+    }
+  },
+  {
+    "name": "Coluna 'users.is_active' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238705Z",
+    "details": {
+      "type": "character varying"
+    }
+  },
+  {
+    "name": "Coluna 'users.created_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238706Z",
+    "details": {
+      "type": "timestamp without time zone"
+    }
+  },
+  {
+    "name": "Coluna 'users.updated_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.238707Z",
+    "details": {
+      "type": "timestamp without time zone"
+    }
+  },
+  {
+    "name": "Constraints da tabela users",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.240338Z",
+    "details": {
+      "constraints": [
+        "users_pkey",
+        "users_email_key",
+        "2200_16394_1_not_null",
+        "2200_16394_2_not_null",
+        "2200_16394_3_not_null",
+        "2200_16394_4_not_null",
+        "2200_16394_5_not_null",
+        "2200_16394_6_not_null",
+        "2200_16394_7_not_null",
+        "2200_16394_8_not_null"
+      ]
+    }
+  },
+  {
+    "name": "Coluna 'auth_tokens.id' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250249Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.user_id' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250259Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.token' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250261Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.token_type' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250262Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.is_active' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250264Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.expires_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250265Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.created_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250266Z"
+  },
+  {
+    "name": "Coluna 'auth_tokens.last_used_at' existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.250267Z"
+  },
+  {
+    "name": "Migrations aplicadas",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.255006Z",
+    "details": {
+      "version": "432576a07748"
+    }
+  },
+  {
+    "name": "Usu\u00e1rio de teste existe",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.260958Z",
+    "details": {
+      "email": "admin@bomjesus.com"
+    }
+  },
+  {
+    "name": "Consulta SELECT COUNT(*) FROM users",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.266138Z",
+    "details": {
+      "count": 1
+    }
+  },
+  {
+    "name": "Consulta SELECT com WHERE",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.266357Z"
+  },
+  {
+    "name": "\u00cdndices do banco",
+    "status": "PASSED",
+    "category": "database",
+    "timestamp": "2025-12-06T20:35:40.273120Z",
+    "details": {
+      "count": 78,
+      "indexes": [
+        "alembic_version_pkc",
+        "auth_tokens_pkey",
+        "auth_tokens_token_key",
+        "ix_auth_tokens_expires_at",
+        "ix_auth_tokens_id",
+        "ix_auth_tokens_is_active",
+        "ix_auth_tokens_token",
+        "ix_auth_tokens_user_id",
+        "camaras_pkey",
+        "ix_camaras_id"
+      ]
+    }
+  }
+]

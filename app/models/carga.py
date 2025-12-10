@@ -24,6 +24,13 @@ class StatusCarga(str, enum.Enum):
     ENCERRADA = "encerrada"
 
 
+class EstadoMaturacao(str, enum.Enum):
+    """Estado de maturação da fruta"""
+    VERDE = "verde"
+    DE_VEZ = "de_vez"
+    MADURA = "madura"
+
+
 class Carga(Base):
     __tablename__ = "cargas"
 
@@ -43,6 +50,11 @@ class Carga(Base):
         index=True,
     )
     qualidade_inicial = Column(String(50), nullable=True)  # A, B, C, etc.
+    estado_maturacao = Column(
+        Enum(EstadoMaturacao),
+        nullable=True,
+        index=True,
+    )  # verde, de_vez, madura
     quantidade_caixas = Column(Integer, nullable=False, default=0)
     preco_compra = Column(Numeric(10, 2), nullable=False)
     status = Column(
@@ -51,6 +63,12 @@ class Carga(Base):
         default=StatusCarga.EM_ESTOQUE,
         index=True,
     )
+    responsavel_recebimento_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )  # Quem conferiu/recebeu a carga
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(
         DateTime,
@@ -63,6 +81,7 @@ class Carga(Base):
     movimentacoes = relationship("MovimentacaoCamara", back_populates="carga", cascade="all, delete-orphan")
     pesagens = relationship("Pesagem", back_populates="carga", cascade="all, delete-orphan")
     perdas = relationship("Perda", back_populates="carga", cascade="all, delete-orphan")
+    responsavel_recebimento = relationship("User", foreign_keys=[responsavel_recebimento_id])
 
     def __repr__(self):
         return f"<Carga(id={self.id}, fornecedor={self.fornecedor}, tipo={self.tipo_banana.value})>"

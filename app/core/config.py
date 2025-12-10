@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Sistema Operacional Bom Jesus"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = Field(default=False, description="Modo debug")
-    ENVIRONMENT: str = Field(default="production", description="Ambiente de execução")
+    ENVIRONMENT: str = Field(default="development", description="Ambiente de execução")
     
     # Servidor
     HOST: str = Field(default="0.0.0.0", description="Host do servidor")
@@ -33,8 +33,12 @@ class Settings(BaseSettings):
     )
     ALGORITHM: str = Field(default="HS256", description="Algoritmo de criptografia")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(
-        default=30,
-        description="Tempo de expiração do token em minutos"
+        default=10,
+        description="Tempo de expiração do access token em minutos"
+    )
+    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(
+        default=7,
+        description="Tempo de expiração do refresh token em dias"
     )
     
     # CORS
@@ -51,6 +55,9 @@ class Settings(BaseSettings):
     
     # Logging
     LOG_LEVEL: str = Field(default="INFO", description="Nível de log")
+    LOG_DIR: str = Field(default="/app/logs", description="Diretório para arquivos de log")
+    ENABLE_FILE_LOGGING: bool = Field(default=True, description="Habilitar logs em arquivo")
+    ENABLE_CONSOLE_LOGGING: bool = Field(default=True, description="Habilitar logs no console")
     
     class Config:
         env_file = ".env"

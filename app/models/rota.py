@@ -31,6 +31,7 @@ class Rota(Base):
     motorista = Column(String(255), nullable=True)
     veiculo = Column(String(100), nullable=True)
     data = Column(DateTime, nullable=False, default=datetime.utcnow, index=True)
+    horario_saida = Column(DateTime, nullable=True, index=True)  # Horário que o caminhão saiu
     status = Column(
         Enum(StatusRota),
         nullable=False,

@@ -1,0 +1,21 @@
+[,
+{"name": "Docker está rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Container backend rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Container database rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Container redis rodando", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Backend está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Database está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Redis está healthy", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Porta 8000 está aberta", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Porta 5433 está aberta", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+,
+{"name": "Porta 6379 está aberta", "status": "PASSED", "category": "infrastructure", "timestamp": "2025-12-06T20:24:51Z"}
+]

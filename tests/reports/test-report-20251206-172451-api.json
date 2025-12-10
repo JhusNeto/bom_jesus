@@ -1,0 +1,129 @@
+[
+  {
+    "name": "GET / (Endpoint raiz)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.832569Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/health",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.838614Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/health/ready",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.842866Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/db/health",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.868862Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /docs (Swagger UI)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.870925Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /redoc (ReDoc)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.872345Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /openapi.json",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:24:51.879926Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/login (credenciais v\u00e1lidas)",
+    "status": "FAILED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.928704Z",
+    "error": "Status esperado 200, recebido 500: Internal Server Error"
+  },
+  {
+    "name": "POST /auth/login (credenciais inv\u00e1lidas)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.932929Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "GET /auth/me (com token)",
+    "status": "SKIPPED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.932968Z",
+    "error": "Token n\u00e3o dispon\u00edvel (login falhou)"
+  },
+  {
+    "name": "GET /auth/me (sem token)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.934971Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "GET /auth/me (token inv\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.936843Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "POST /auth/refresh (token v\u00e1lido)",
+    "status": "SKIPPED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.936871Z",
+    "error": "Refresh token n\u00e3o dispon\u00edvel (login falhou)"
+  },
+  {
+    "name": "POST /auth/refresh (token inv\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.938609Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "POST /auth/logout",
+    "status": "SKIPPED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:24:51.938635Z",
+    "error": "Refresh token n\u00e3o dispon\u00edvel (login falhou)"
+  }
+]

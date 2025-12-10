@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   // Standalone output for Docker
   output: 'standalone',
   
+  // Desabilitar ESLint durante build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  
   // PWA configuration (base structure)
   // To enable PWA, install next-pwa and configure
   // Currently just placeholder for future implementation

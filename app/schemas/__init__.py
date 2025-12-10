@@ -1,6 +1,10 @@
 """
 Schemas Pydantic para validação e serialização
 """
+# Núcleo Técnico - Autenticação
+from .user import UserCreate, UserUpdate, UserRead, UserLogin
+from .auth import TokenResponse, RefreshTokenRequest, RefreshTokenResponse
+
 # Núcleo Operacional
 from .carga import CargaCreate, CargaUpdate, CargaRead
 from .camara import CamaraCreate, CamaraUpdate, CamaraRead
@@ -26,6 +30,9 @@ from .rota import RotaCreate, RotaUpdate, RotaRead
 from .entrega_cliente import EntregaClienteCreate, EntregaClienteUpdate, EntregaClienteRead
 
 __all__ = [
+    # Núcleo Técnico - Autenticação
+    "UserCreate", "UserUpdate", "UserRead", "UserLogin",
+    "TokenResponse", "RefreshTokenRequest", "RefreshTokenResponse",
     # Núcleo Operacional
     "CargaCreate", "CargaUpdate", "CargaRead",
     "CamaraCreate", "CamaraUpdate", "CamaraRead",

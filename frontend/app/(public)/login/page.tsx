@@ -25,9 +25,9 @@ export default function LoginPage() {
     checkAuth()
     // Se já está autenticado, redireciona
     if (isAuthenticated) {
-      window.location.href = "/dashboard"
+      router.push("/dashboard")
     }
-  }, [isAuthenticated, checkAuth])
+  }, [isAuthenticated, checkAuth, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,22 +40,17 @@ export default function LoginPage() {
 
     try {
       await login(email, password)
-      // Verifica se o token foi salvo no localStorage
-      const token = localStorage.getItem("access_token")
-      if (token) {
-        // Usa window.location para forçar navegação completa
-        window.location.href = "/dashboard"
-      } else {
-        setError("Erro ao salvar credenciais. Tente novamente.")
-      }
+      // Redireciona após login bem-sucedido
+      router.push("/dashboard")
     } catch (err: any) {
-      setError(err?.message || "Erro ao fazer login. Tente novamente.")
+      const errorMessage = err?.response?.data?.detail || err?.message || "Erro ao fazer login. Verifique suas credenciais."
+      setError(errorMessage)
     }
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gray-50">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
             Sistema Operacional Bom Jesus
@@ -76,6 +71,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
                 required
+                autoComplete="email"
               />
             </div>
             <div className="space-y-2">
@@ -88,10 +84,11 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
                 required
+                autoComplete="current-password"
               />
             </div>
             {error && (
-              <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+              <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
                 {error}
               </div>
             )}
@@ -99,9 +96,6 @@ export default function LoginPage() {
               {isLoading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
-          <div className="mt-4 text-sm text-muted-foreground text-center">
-            <p>Para teste, use qualquer email e senha</p>
-          </div>
         </CardContent>
       </Card>
     </div>

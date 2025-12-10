@@ -2,6 +2,7 @@
 Repositories - Camada de acesso a dados
 """
 from .base import BaseRepository
+from .user import UserRepository
 from .carga import CargaRepository
 from .camara import CamaraRepository
 from .cliente import ClienteRepository
@@ -19,6 +20,7 @@ from .ocr_input import OCRInputRepository
 
 __all__ = [
     "BaseRepository",
+    "UserRepository",
     "CargaRepository",
     "CamaraRepository",
     "ClienteRepository",

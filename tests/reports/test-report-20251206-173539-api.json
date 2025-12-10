@@ -1,0 +1,146 @@
+[
+  {
+    "name": "GET / (Endpoint raiz)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.817444Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/health",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.820409Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/health/ready",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.823305Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /api/v1/db/health",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.852557Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /docs (Swagger UI)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.855343Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /redoc (ReDoc)",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.857211Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /openapi.json",
+    "status": "PASSED",
+    "category": "api_basic",
+    "timestamp": "2025-12-06T20:35:39.865381Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/login (credenciais v\u00e1lidas)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.101249Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/login (credenciais inv\u00e1lidas)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.105006Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "GET /auth/me (com token v\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.109353Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "GET /auth/me (sem token)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.111065Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "GET /auth/me (token inv\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.112760Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "POST /auth/refresh (token v\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.116053Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/refresh (token inv\u00e1lido)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.117758Z",
+    "details": {
+      "status_code": 401
+    }
+  },
+  {
+    "name": "POST /auth/logout",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.120008Z",
+    "details": {
+      "status_code": 200
+    }
+  },
+  {
+    "name": "POST /auth/refresh (ap\u00f3s logout - deve falhar)",
+    "status": "PASSED",
+    "category": "auth",
+    "timestamp": "2025-12-06T20:35:40.122248Z",
+    "details": {
+      "status_code": 401
+    }
+  }
+]

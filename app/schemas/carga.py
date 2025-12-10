@@ -7,7 +7,7 @@ from uuid import UUID
 from pydantic import BaseModel, Field
 from decimal import Decimal
 
-from app.models.carga import TipoBanana, StatusCarga
+from app.models.carga import TipoBanana, StatusCarga, EstadoMaturacao, EstadoMaturacao
 
 
 # Base
@@ -17,9 +17,11 @@ class CargaBase(BaseModel):
     fazenda: Optional[str] = Field(None, max_length=255)
     tipo_banana: TipoBanana
     qualidade_inicial: Optional[str] = Field(None, max_length=50)
+    estado_maturacao: Optional[EstadoMaturacao] = None
     quantidade_caixas: int = Field(..., ge=0)
     preco_compra: Decimal = Field(..., ge=0)
     status: StatusCarga = StatusCarga.EM_ESTOQUE
+    responsavel_recebimento_id: Optional[UUID] = None
 
 
 # Create
@@ -34,9 +36,11 @@ class CargaUpdate(BaseModel):
     fazenda: Optional[str] = Field(None, max_length=255)
     tipo_banana: Optional[TipoBanana] = None
     qualidade_inicial: Optional[str] = Field(None, max_length=50)
+    estado_maturacao: Optional[EstadoMaturacao] = None
     quantidade_caixas: Optional[int] = Field(None, ge=0)
     preco_compra: Optional[Decimal] = Field(None, ge=0)
     status: Optional[StatusCarga] = None
+    responsavel_recebimento_id: Optional[UUID] = None
 
 
 # Read

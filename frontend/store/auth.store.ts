@@ -9,7 +9,8 @@ interface AuthState {
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
-  checkAuth: () => void
+  checkAuth: () => Promise<void>
+  refreshUser: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -23,40 +24,77 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true })
         try {
           const response = await authService.login({ email, password })
-          // Atualiza o estado imediatamente
           set({
             user: response.user || null,
             isAuthenticated: true,
             isLoading: false,
           })
-          // Aguarda um tick para garantir que o estado foi persistido
-          await new Promise((resolve) => setTimeout(resolve, 50))
-        } catch (error) {
+        } catch (error: any) {
           set({ isLoading: false })
           throw error
         }
       },
 
       logout: async () => {
-        await authService.logout()
+        const refreshToken = authService.getRefreshToken()
+        await authService.logout(refreshToken || undefined)
         set({
           user: null,
           isAuthenticated: false,
         })
       },
 
-      checkAuth: () => {
-        const user = authService.getCurrentUser()
-        const isAuthenticated = authService.isAuthenticated()
-        set({
-          user,
-          isAuthenticated,
-        })
+      checkAuth: async () => {
+        const token = authService.getToken()
+        const storedUser = authService.getStoredUser()
+        
+        if (token && storedUser) {
+          set({
+            user: storedUser,
+            isAuthenticated: true,
+          })
+          // Tenta atualizar dados do usuário
+          try {
+            const currentUser = await authService.getCurrentUser()
+            if (currentUser) {
+              set({ user: currentUser })
+            }
+          } catch (error) {
+            // Se falhar, mantém usuário do storage
+            console.error("Erro ao buscar usuário atual:", error)
+          }
+        } else {
+          set({
+            user: null,
+            isAuthenticated: false,
+          })
+        }
+      },
+
+      refreshUser: async () => {
+        try {
+          const currentUser = await authService.getCurrentUser()
+          if (currentUser) {
+            set({ user: currentUser })
+          }
+        } catch (error) {
+          console.error("Erro ao atualizar dados do usuário:", error)
+        }
       },
     }),
     {
       name: "auth-storage",
-      storage: createJSONStorage(() => (typeof window !== "undefined" ? localStorage : undefined)),
+      storage: createJSONStorage(() => {
+        if (typeof window !== "undefined") {
+          return localStorage
+        }
+        // Return a no-op storage for SSR
+        return {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        }
+      }),
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
@@ -64,4 +102,3 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 )
-

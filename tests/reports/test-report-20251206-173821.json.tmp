@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Conexão com Redis",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.533786Z"
+  },
+  {
+    "name": "Redis PING",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.534868Z"
+  },
+  {
+    "name": "Salvar refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.535861Z",
+    "details": {
+      "key": "refresh_token:test-user-123:test-refresh-token-12345",
+      "ttl": 3600
+    }
+  },
+  {
+    "name": "Verificar refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.536629Z"
+  },
+  {
+    "name": "TTL de refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.537402Z",
+    "details": {
+      "ttl_seconds": 3600
+    }
+  },
+  {
+    "name": "Revogar refresh token",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.538207Z"
+  },
+  {
+    "name": "Revogar todos os tokens",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.539500Z",
+    "details": {
+      "deleted_count": 3
+    }
+  },
+  {
+    "name": "Redis INFO",
+    "status": "PASSED",
+    "category": "redis",
+    "timestamp": "2025-12-06T20:38:22.540485Z",
+    "details": {
+      "redis_version": "7.4.7"
+    }
+  }
+]
