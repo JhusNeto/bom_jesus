@@ -2,6 +2,10 @@
 
 Backend do Sistema Operacional Bom Jesus construído com **FastAPI (Python)**.
 
+## 📌 Contexto de Negócio
+
+Sistema operacional completo desenvolvido para **distribuidoras de frutas** (foco em bananas), permitindo gestão de pedidos, pesagem, cargas, clientes e movimentações em câmaras frias. A solução integra mobile para pesagem em campo, API REST para integrações e frontend para dashboards de gestão.
+
 ## 📋 Índice
 
 - [Stack Tecnológica](#stack-tecnológica)
@@ -387,4 +391,4 @@ pytest
 ---
 
 **Versão**: 1.0.0  
-**Última atualização**: 2024
+**Última atualização**: 2025
