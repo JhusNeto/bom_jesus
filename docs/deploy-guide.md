@@ -208,4 +208,18 @@ app.enableCors({
 | Frontend não conecta à API | Conferir `VITE_API_URL` no build e CORS no backend |
 | 502 Bad Gateway | Backend não iniciou; ver logs do container |
 | Migrations falham | `DATABASE_URL` correta; banco acessível |
+| P3009 / "failed migrations" | Ver abaixo |
 | PWA não atualiza | Service worker com `registerType: 'autoUpdate'`; usuário pode precisar atualizar a aba |
+
+### P3009: migration failed / New migrations cannot be applied
+
+Quando uma migration falha, o Prisma bloqueia novas migrations. Para recuperar:
+
+**Opção A – Banco novo (recomendado em staging):** Delete o Postgres e crie outro no Railway. O próximo deploy aplicará todas as migrations do zero.
+
+**Opção B – Resolver manualmente:** Com [Railway CLI](https://docs.railway.app/develop/cli), no diretório `backend`:
+```bash
+railway link
+railway run npx prisma migrate resolve --rolled-back "20260220140514"
+```
+Depois faça **Redeploy**.

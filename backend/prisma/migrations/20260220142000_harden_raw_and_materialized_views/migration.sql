@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS "RawEventProcessingState" (
 
 CREATE UNIQUE INDEX IF NOT EXISTS "RawEventProcessingState_rawEventId_key"
   ON "RawEventProcessingState" ("rawEventId");
+ALTER TABLE "RawEventProcessingState" ALTER COLUMN "updatedAt" DROP DEFAULT;
 CREATE INDEX IF NOT EXISTS "RawEventProcessingState_processingStatus_ingestedAt_idx"
   ON "RawEventProcessingState" ("processingStatus", "ingestedAt");
 CREATE INDEX IF NOT EXISTS "RawEventProcessingState_validationStatus_idx"
