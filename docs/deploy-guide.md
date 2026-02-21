@@ -122,17 +122,24 @@ PaaS gerenciado, mais simples que VPS.
 
 ### Backend no Railway
 
+**Importante:** O repositório é um monorepo. O Railway precisa do **Root Directory** apontando para `backend`.
+
 1. Crie um projeto e adicione:
-   - **Postgres** (add-on)
+   - **Postgres** (add-on) — copie o `DATABASE_URL` gerado
    - **Web Service** (deploy do backend)
 
-2. Configure o Web Service:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm ci && npx prisma generate && npm run build`
-   - **Start Command**: `npx prisma migrate deploy && node dist/main`
-   - **Variables**: `DATABASE_URL` (do add-on Postgres), `JWT_SECRET`
+2. No Web Service, em **Settings**:
+   - **Root Directory**: `backend` ⚠️ obrigatório, senão o Railpack não encontra o app
+   - (Opcional) **Build Command**: deixe vazio para usar `nixpacks.toml`
+   - (Opcional) **Start Command**: deixe vazio para usar `nixpacks.toml`
 
-3. O Railway gera uma URL pública (ex: `https://backend-xxx.railway.app`).
+3. Em **Variables**, adicione:
+   - `DATABASE_URL` — use a do add-on Postgres
+   - `JWT_SECRET` — gere com `openssl rand -base64 48`
+
+4. Faça um novo deploy. O `backend/nixpacks.toml` instrui o Railpack a fazer o build Node.
+
+5. Após o deploy, as migrations rodam automaticamente. Para seed inicial: use o endpoint `/v1/auth/login` com admin (criar via API ou rodar seed localmente e importar).
 
 ### Frontend no Railway ou Vercel
 
