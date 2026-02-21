@@ -1,0 +1,432 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OPERATOR
+  ADMINISTRATIVE
+  MANAGER
+  ADMIN
+}
+
+enum MaturityState {
+  VERDE
+  DE_VEZ
+  MADURA
+}
+
+enum MovementType {
+  ENTRY
+  MOVE
+  LOSS
+  RETURN
+  EXIT
+}
+
+enum EventSyncStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+}
+
+enum RawEventType {
+  LOT_ENTRY_REGISTERED
+  LOT_MOVED
+  LOSS_REGISTERED
+  RETURN_REGISTERED
+  MATURITY_OVERRIDE
+  ORDER_PHOTO_CAPTURED
+}
+
+enum ValidationStatus {
+  VALID
+  NEEDS_REVIEW
+  INVALID
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSED
+  FAILED
+}
+
+enum ReasonType {
+  LOSS
+  RETURN
+}
+
+model User {
+  id         String      @id @default(cuid())
+  name       String
+  email      String      @unique
+  password   String
+  role       UserRole
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  rawEvents  RawEvent[]
+  movements  StockMovement[]
+  losses     LossRecord[]
+  returns    ReturnRecord[]
+  refreshTokens    RefreshToken[]
+  reviewActions   ReviewAction[]
+  auditLogs       AuditLog[]
+  pushSubscription PushSubscription?
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lots      Lot[]
+  losses    LossRecord[]
+  returns   ReturnRecord[]
+}
+
+model Location {
+  id             String          @id @default(cuid())
+  name           String          @unique
+  type           String
+  active         Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  currentLots    Lot[]           @relation("CurrentLotLocation")
+  movementsFrom  StockMovement[] @relation("MovementFrom")
+  movementsTo    StockMovement[] @relation("MovementTo")
+  losses         LossRecord[]
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stores    Store[]
+  returns   ReturnRecord[]
+
+  @@unique([name])
+}
+
+model Store {
+  id        String   @id @default(cuid())
+  clientId  String
+  name      String
+  city      String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  client    Client   @relation(fields: [clientId], references: [id])
+  returns   ReturnRecord[]
+
+  @@index([clientId])
+  @@unique([clientId, name])
+}
+
+model Lot {
+  id                String          @id @default(cuid())
+  productId         String
+  currentLocationId String?
+  maturityState     MaturityState   @default(VERDE)
+  boxes             Int             @default(0)
+  kg                Decimal?        @db.Decimal(12, 3)
+  entryDate         DateTime        @default(now())
+  inconsistent      Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  product           Product         @relation(fields: [productId], references: [id])
+  currentLocation   Location?       @relation("CurrentLotLocation", fields: [currentLocationId], references: [id])
+  movements         StockMovement[]
+  losses            LossRecord[]
+  returns           ReturnRecord[]
+  snapshots         MaturationDailySnapshot[]
+
+  @@index([productId])
+  @@index([maturityState])
+  @@index([currentLocationId])
+  @@index([productId, maturityState])
+}
+
+model StockMovement {
+  id             String       @id @default(cuid())
+  lotId          String
+  fromLocationId String?
+  toLocationId   String?
+  movementType   MovementType
+  boxesDelta     Int          @default(0)
+  kgDelta        Decimal?     @db.Decimal(12, 3)
+  happenedAt     DateTime
+  userId         String
+  sourceRawEventId String?
+  createdAt      DateTime     @default(now())
+  lot            Lot          @relation(fields: [lotId], references: [id])
+  fromLocation   Location?    @relation("MovementFrom", fields: [fromLocationId], references: [id])
+  toLocation     Location?    @relation("MovementTo", fields: [toLocationId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+  sourceRawEvent RawEvent?    @relation("RawEventStockMovements", fields: [sourceRawEventId], references: [id])
+
+  @@index([lotId, happenedAt])
+  @@index([movementType, happenedAt])
+  @@index([sourceRawEventId])
+}
+
+model LossRecord {
+  id         String    @id @default(cuid())
+  lotId      String
+  productId  String?
+  locationId String?
+  reason     String
+  boxes      Int       @default(0)
+  kg         Decimal?  @db.Decimal(12, 3)
+  happenedAt DateTime
+  userId     String
+  sourceRawEventId String?
+  createdAt  DateTime  @default(now())
+  lot        Lot       @relation(fields: [lotId], references: [id])
+  product    Product?  @relation(fields: [productId], references: [id])
+  location   Location? @relation(fields: [locationId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  sourceRawEvent RawEvent? @relation("RawEventLosses", fields: [sourceRawEventId], references: [id])
+
+  @@index([happenedAt])
+  @@index([lotId])
+  @@index([productId])
+  @@index([locationId])
+  @@index([sourceRawEventId])
+}
+
+model ReturnRecord {
+  id         String    @id @default(cuid())
+  lotId      String?
+  clientId   String
+  storeId    String
+  productId  String?
+  reason     String
+  boxes      Int       @default(0)
+  kg         Decimal?  @db.Decimal(12, 3)
+  photoUrl   String?
+  happenedAt DateTime
+  userId     String
+  sourceRawEventId String?
+  createdAt  DateTime  @default(now())
+  lot        Lot?      @relation(fields: [lotId], references: [id])
+  client     Client    @relation(fields: [clientId], references: [id])
+  store      Store     @relation(fields: [storeId], references: [id])
+  product    Product?  @relation(fields: [productId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  sourceRawEvent RawEvent? @relation("RawEventReturns", fields: [sourceRawEventId], references: [id])
+
+  @@index([happenedAt])
+  @@index([clientId, storeId])
+  @@index([clientId, happenedAt])
+  @@index([productId])
+  @@index([sourceRawEventId])
+}
+
+model RawEvent {
+  id             String          @id @default(cuid())
+  eventType      RawEventType
+  source         String
+  payloadJson    Json
+  deviceId       String?
+  userId         String?
+  occurredAt     DateTime
+  validationStatus ValidationStatus @default(VALID)
+  validationErrors Json?
+  processingStatus ProcessingStatus @default(PENDING)
+  ingestedAt     DateTime        @default(now())
+  processedAt    DateTime?
+  receivedAt     DateTime        @default(now())
+  syncStatus     EventSyncStatus @default(RECEIVED)
+  idempotencyKey String          @unique
+  createdAt      DateTime        @default(now())
+  user           User?           @relation(fields: [userId], references: [id])
+  issues         ValidationIssue[]
+  stockMovements StockMovement[] @relation("RawEventStockMovements")
+  losses         LossRecord[]    @relation("RawEventLosses")
+  returns        ReturnRecord[]  @relation("RawEventReturns")
+  processingState RawEventProcessingState?
+
+  @@index([eventType, occurredAt])
+  @@index([syncStatus])
+  @@index([validationStatus])
+  @@index([processingStatus, ingestedAt])
+}
+
+model RawEventProcessingState {
+  id               String           @id @default(cuid())
+  rawEventId       String           @unique
+  validationStatus ValidationStatus @default(VALID)
+  validationErrors Json?
+  processingStatus ProcessingStatus @default(PENDING)
+  ingestedAt       DateTime         @default(now())
+  processedAt      DateTime?
+  lastError        String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  rawEvent         RawEvent         @relation(fields: [rawEventId], references: [id])
+
+  @@index([processingStatus, ingestedAt])
+  @@index([validationStatus])
+}
+
+model ValidationIssue {
+  id         String   @id @default(cuid())
+  rawEventId String
+  issueCode  String
+  severity   String
+  details    String?
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  rawEvent   RawEvent @relation(fields: [rawEventId], references: [id])
+  actions    ReviewAction[]
+
+  @@index([rawEventId])
+  @@index([resolved, severity])
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  userId     String
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  revokedAt  DateTime?
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, expiresAt])
+}
+
+model ReviewAction {
+  id                String          @id @default(cuid())
+  validationIssueId String
+  action            String
+  notes             String?
+  actorUserId       String
+  createdAt         DateTime        @default(now())
+  validationIssue   ValidationIssue @relation(fields: [validationIssueId], references: [id])
+  actorUser         User            @relation(fields: [actorUserId], references: [id])
+
+  @@index([validationIssueId, createdAt])
+  @@index([actorUserId, createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorUserId String
+  action     String
+  entityType String
+  entityId   String
+  payload    Json?
+  createdAt  DateTime @default(now())
+  actorUser  User     @relation(fields: [actorUserId], references: [id])
+
+  @@index([entityType, entityId, createdAt])
+  @@index([actorUserId, createdAt])
+}
+
+model MaturationDailySnapshot {
+  id           String        @id @default(cuid())
+  lotId        String
+  snapshotDate DateTime
+  state        MaturityState
+  boxes        Int           @default(0)
+  kg           Decimal?      @db.Decimal(12, 3)
+  createdAt    DateTime      @default(now())
+  lot          Lot           @relation(fields: [lotId], references: [id])
+
+  @@index([snapshotDate, state])
+  @@unique([lotId, snapshotDate])
+}
+
+model Reason {
+  id        String     @id @default(cuid())
+  type      ReasonType
+  name      String
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@unique([type, name])
+  @@index([type, active])
+}
+
+model ValidationRuleConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  valueNumber Decimal? @db.Decimal(14, 4)
+  valueText   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum AlertChannel {
+  PUSH
+  EMAIL
+}
+
+enum AlertDeliveryStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model AlertRule {
+  id              String        @id @default(cuid())
+  ruleKey         String        @unique
+  name            String
+  description     String?
+  thresholdConfig Json
+  cooldownMinutes Int           @default(120)
+  severity        AlertSeverity @default(WARNING)
+  channels        String[]
+  active          Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  events          AlertEvent[]
+
+  @@index([active])
+}
+
+model AlertEvent {
+  id            String              @id @default(cuid())
+  ruleId        String
+  payload       Json
+  severity      AlertSeverity
+  channel       AlertChannel
+  status        AlertDeliveryStatus  @default(PENDING)
+  recipientEmail String?
+  recipientUserId String?
+  errorMessage  String?
+  sentAt       DateTime?
+  createdAt     DateTime            @default(now())
+  rule          AlertRule           @relation(fields: [ruleId], references: [id])
+
+  @@index([ruleId, createdAt])
+  @@index([status])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId])
+  @@index([userId])
+}
